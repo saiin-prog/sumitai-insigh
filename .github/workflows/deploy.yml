@@ -13,13 +13,11 @@ jobs:
       - name: 🚚 Get latest code
         uses: actions/checkout@v4
 
-      - name: 📂 Sync files
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          # DANGER: This will overwrite everything in the target folder!
-          # If you want to replace WordPress, use: ./public_html/
-          # If you want to test first (RECOMMENDED), use: ./public_html/v2/
-          server-dir: ./public_html/ 
+      - name: Sync files
+  uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+  with:
+    server: ${{ secrets.FTP_SERVER }}
+    username: ${{ secrets.FTP_USERNAME }}
+    password: ${{ secrets.FTP_PASSWORD }}
+    server-dir: public_html/
+
