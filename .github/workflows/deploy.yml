@@ -18,4 +18,4 @@ jobs:
         with:
           # SAFETY: Deploying to a subfolder 'sumitai-v2' to protect your main WordPress site.
           # You can view the site at: your-domain.com/sumitai-v2/
-          server-dir: ./public_html/sumitai-v2/
+          server-dir: public_html/sumitai-v2/
