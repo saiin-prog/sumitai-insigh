@@ -1,0 +1,435 @@
+/* 
+ * SumitAIInsight - TDS Style Theme 
+ * Design Philosophy: Content-First, Minimalist, Typography-Centric
+ */
+
+:root {
+    /* Typography - The Heart of the Design */
+    --font-serif: 'Merriweather', 'Georgia', serif;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+    /* Color Palette - Minimalist */
+    --color-bg: #cdeee1;
+    --color-surface: #ffffff;
+    --color-text-main: #292929;
+    /* Softer black */
+    --color-text-muted: #757575;
+    --color-accent: #1a8917;
+    /* Medium Green */
+    --color-border: #f0f0f0;
+
+    /* Spacing & Layout */
+    --container-width: 1192px;
+    --reading-width: 700px;
+    --header-height: 80px;
+    --gap-standard: 24px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--color-surface);
+    color: var(--color-text-main);
+    font-family: var(--font-sans);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Typography Utils */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #000;
+}
+
+p {
+    margin-bottom: 1.5em;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: #333;
+}
+
+/* Structural Components */
+
+.container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* Header - Sticky & Minimal */
+.site-header {
+    height: var(--header-height);
+    border-bottom: 1px solid var(--color-border);
+    position: sticky;
+    top: 0;
+    background: rgba(255, 255, 255, 0.98);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+}
+
+.header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 800;
+    font-family: var(--font-serif);
+    letter-spacing: -0.03em;
+}
+
+.nav-links {
+    display: flex;
+    gap: 32px;
+    font-size: 14px;
+    color: var(--color-text-muted);
+    align-items: center;
+}
+
+.nav-links a:hover {
+    color: #000;
+}
+
+.btn-subscribe {
+    background-color: var(--color-accent);
+    color: white !important;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 500;
+    transition: opacity 0.2s;
+}
+
+.btn-subscribe:hover {
+    opacity: 0.9;
+}
+
+/* Welcome Banner */
+.welcome-banner {
+    background-color: var(--color-bg);
+    /* Use the soft green background */
+    padding: 80px 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.welcome-title {
+    font-size: 42px;
+    /* Large but not shouting */
+    font-weight: 700;
+    /* TDS serif font weight */
+    font-family: var(--font-serif);
+    margin-bottom: 16px;
+    color: #000;
+}
+
+.welcome-subtitle {
+    font-size: 24px;
+    color: var(--color-text-main);
+    font-family: var(--font-sans);
+    font-weight: 400;
+}
+
+/* Main Two-Column Layout */
+.main-layout {
+    padding: 48px 0;
+}
+
+.layout-grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    /* Main content flex, fixed sidebar width */
+    gap: 64px;
+    /* Generous gap */
+}
+
+/* Feed Column Styles */
+.feed-column {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}
+
+/* Feed Items */
+.feed-item {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.feed-item:last-child {
+    border-bottom: none;
+}
+
+/* Featured Item is different - stacked */
+.feed-item.featured-item {
+    flex-direction: column;
+    gap: 24px;
+}
+
+.feed-item.featured-item .feed-image img {
+    height: 300px;
+    width: 100%;
+}
+
+.feed-image-small {
+    width: 200px;
+    height: 134px;
+    flex-shrink: 0;
+    background: #f9f9f9;
+}
+
+.feed-image-small img,
+.feed-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 2px;
+}
+
+.feed-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.feed-title {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 20px;
+    margin-bottom: 8px;
+    color: #000;
+    line-height: 1.25;
+}
+
+.featured-item .feed-title {
+    font-family: var(--font-serif);
+    font-size: 28px;
+}
+
+.feed-excerpt {
+    font-family: var(--font-serif);
+    color: var(--color-text-muted);
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.feed-footer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--color-text-muted);
+}
+
+.tag {
+    background: #f2f2f2;
+    padding: 2px 10px;
+    border-radius: 100px;
+    color: #292929;
+}
+
+/* Sidebar Styling */
+.sidebar-sticky {
+    position: sticky;
+    top: 120px;
+    /* Stick below header */
+}
+
+.sidebar-title {
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 24px;
+    color: #292929;
+}
+
+.category-list-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 40px;
+}
+
+.chip {
+    padding: 8px 16px;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    font-size: 14px;
+    color: var(--color-text-muted);
+    transition: all 0.2s;
+}
+
+.chip:hover {
+    border-color: #292929;
+    color: #292929;
+}
+
+.sidebar-divider {
+    height: 1px;
+    background: var(--color-border);
+    margin: 24px 0;
+}
+
+.sidebar-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 24px;
+}
+
+.sidebar-links a {
+    font-size: 14px;
+    color: var(--color-text-muted);
+}
+
+.sidebar-links a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+    .layout-grid {
+        display: flex;
+        flex-direction: column-reverse;
+        /* Put sidebar at bottom on mobile or remove it */
+    }
+
+    .sidebar-column {
+        display: none;
+        /* Often hidden on mobile for these types of layouts, or moved */
+    }
+
+    .feed-item {
+        flex-direction: column-reverse;
+    }
+
+    .feed-image-small {
+        width: 100%;
+        height: 200px;
+    }
+}
+
+/* Footer */
+.site-footer {
+    background: #f9f9f9;
+    padding: 60px 0;
+    margin-top: 80px;
+    border-top: 1px solid var(--color-border);
+}
+
+/* Utilities */
+.author-avatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #ddd;
+}
+
+/* Article Page Specifics */
+.article-header {
+    text-align: center;
+    max-width: var(--reading-width);
+    margin: 80px auto 40px;
+}
+
+.article-title {
+    font-family: var(--font-serif);
+    font-size: 42px;
+    line-height: 1.2;
+    margin-bottom: 24px;
+    font-weight: 700;
+}
+
+.article-subtitle {
+    font-family: var(--font-sans);
+    font-size: 22px;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+    margin-bottom: 32px;
+}
+
+.article-body {
+    max-width: var(--reading-width);
+    margin: 0 auto 100px;
+    font-family: var(--font-serif);
+    font-size: 20px;
+    line-height: 1.8;
+    /* The "Medium" leading */
+    color: #292929;
+}
+
+.article-body p {
+    margin-bottom: 2rem;
+}
+
+.article-body h2 {
+    font-family: var(--font-sans);
+    /* Headings in body are often sans */
+    font-size: 28px;
+    margin-top: 48px;
+    margin-bottom: 16px;
+    font-weight: 700;
+}
+
+.article-body h3 {
+    font-family: var(--font-sans);
+    font-size: 24px;
+    margin-top: 32px;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.article-body blockquote {
+    border-left: 3px solid #000;
+    padding-left: 20px;
+    margin: 32px 0 32px -20px;
+    font-style: italic;
+    font-size: 24px;
+    color: #555;
+    background: transparent;
+}
+
+/* Code Blocks for "Tech Blog" Feel */
+.article-body pre {
+    background: #f7f7f7;
+    padding: 24px;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin: 32px 0;
+    font-size: 14px;
+    font-family: 'Courier New', Courier, monospace;
+    border: 1px solid #eee;
+}
+
+.container-narrow {
+    max-width: var(--reading-width);
+    margin: 0 auto;
+}

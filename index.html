@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SumitAIInsight - AI, MLOps, and Security</title>
+    <!-- Google Fonts: Merriweather for that "Medium" feel, Inter for UI -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="#" class="logo">SumitAIInsight</a>
+            <nav class="nav-links">
+                <a href="#">Learn AI</a>
+                <a href="#">MLOps</a>
+                <a href="#">Cyber Security</a>
+                <a href="#">M365</a>
+                <a href="#">Email Security</a>
+                <a href="#">About Sumit</a>
+                <a href="#" class="btn-subscribe">Subscribe</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Welcome Banner Section -->
+    <section class="welcome-banner">
+        <div class="container">
+            <h1 class="welcome-title">Welcome to this learning space - sumitaiinsight</h1>
+            <p class="welcome-subtitle">Exploring the frontiers of AI, MLOps, and Cyber Security.</p>
+        </div>
+    </section>
+
+    <!-- Main Layout: Feed + Sidebar -->
+    <main class="main-layout">
+        <div class="container layout-grid">
+
+            <!-- Left Column: Article Feed -->
+            <div class="feed-column">
+                <h2 class="section-title">Latest Knowledge</h2>
+
+                <!-- Featured / Big Article -->
+                <article class="feed-item featured-item">
+                    <div class="feed-image">
+                        <a href="article.html">
+                            <img src="https://images.unsplash.com/photo-1555421689-d68471e189f2?auto=format&fit=crop&q=80&w=1000"
+                                alt="Security Code">
+                        </a>
+                    </div>
+                    <div class="feed-content">
+                        <div class="card-meta">
+                            <div class="author-avatar"></div>
+                            <span>Sumit Kumar · Jan 7, 2026</span>
+                        </div>
+                        <a href="article.html">
+                            <h2 class="feed-title">The Future of Email Security: Why SPF, DKIM, and DMARC Still Matter
+                            </h2>
+                        </a>
+                        <p class="feed-excerpt">
+                            Modern email protocols are like adding security features to a postcard. Here is a deep dive
+                            into how
+                            they actually protect your organization from spoofing.
+                        </p>
+                        <div class="feed-footer">
+                            <span class="tag">Email Security</span>
+                            <span class="read-time">8 min read</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Standard Feed Item 1 -->
+                <article class="feed-item">
+                    <div class="feed-content">
+                        <div class="card-meta">
+                            <div class="author-avatar"></div>
+                            <span>Sumit Kumar · Jan 5, 2026</span>
+                        </div>
+                        <a href="#">
+                            <h3 class="feed-title">Understanding LLM Fine-Tuning</h3>
+                        </a>
+                        <p class="feed-excerpt">
+                            A beginner's guide to how Large Language Models adapt to specific tasks without retraining
+                            from scratch.
+                        </p>
+                        <div class="feed-footer">
+                            <span class="tag">Learn AI</span>
+                            <span class="read-time">4 min read</span>
+                        </div>
+                    </div>
+                    <div class="feed-image-small">
+                        <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=300"
+                            alt="AI">
+                    </div>
+                </article>
+
+                <!-- Standard Feed Item 2 -->
+                <article class="feed-item">
+                    <div class="feed-content">
+                        <div class="card-meta">
+                            <div class="author-avatar"></div>
+                            <span>Sumit Kumar · Jan 3, 2026</span>
+                        </div>
+                        <a href="#">
+                            <h3 class="feed-title">Building Resilient ML Pipelines</h3>
+                        </a>
+                        <p class="feed-excerpt">
+                            Why your model works in a notebook but fails in production. The key principles of MLOps
+                            engineering.
+                        </p>
+                        <div class="feed-footer">
+                            <span class="tag">MLOps</span>
+                            <span class="read-time">6 min read</span>
+                        </div>
+                    </div>
+                    <div class="feed-image-small">
+                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=300"
+                            alt="MLOps">
+                    </div>
+                </article>
+
+                <!-- Standard Feed Item 3 -->
+                <article class="feed-item">
+                    <div class="feed-content">
+                        <div class="card-meta">
+                            <div class="author-avatar"></div>
+                            <span>Sumit Kumar · Jan 1, 2026</span>
+                        </div>
+                        <a href="#">
+                            <h3 class="feed-title">Zero Trust Architecture Explained</h3>
+                        </a>
+                        <p class="feed-excerpt">
+                            Moving beyond the perimeter deployment. How to implement zero trust without breaking user
+                            experience.
+                        </p>
+                        <div class="feed-footer">
+                            <span class="tag">Cyber Security</span>
+                            <span class="read-time">5 min read</span>
+                        </div>
+                    </div>
+                    <div class="feed-image-small">
+                        <img src="https://images.unsplash.com/photo-1563968743333-bd1d48ab138e?auto=format&fit=crop&q=80&w=300"
+                            alt="Zero Trust">
+                    </div>
+                </article>
+
+            </div>
+
+            <!-- Right Column: Sidebar (Categories) -->
+            <aside class="sidebar-column">
+                <div class="sidebar-sticky">
+                    <h3 class="sidebar-title">Discover more of what matters to you</h3>
+                    <div class="category-list-chips">
+                        <a href="#" class="chip">Learn AI</a>
+                        <a href="#" class="chip">MLOps</a>
+                        <a href="#" class="chip">Cyber Security</a>
+                        <a href="m365.html" class="chip">M365</a>
+                        <a href="#" class="chip">Email Security</a>
+                        <a href="#" class="chip">Data Science</a>
+                        <a href="#" class="chip">Cloud Computing</a>
+                    </div>
+
+                    <div class="sidebar-divider"></div>
+
+                    <div class="sidebar-links">
+                        <a href="#">Help</a>
+                        <a href="#">Status</a>
+                        <a href="#">Writers</a>
+                        <a href="#">Blog</a>
+                        <a href="#">Careers</a>
+                        <a href="#">Privacy</a>
+                        <a href="#">Terms</a>
+                        <a href="#">About</a>
+                    </div>
+                </div>
+            </aside>
+
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p style="color: #757575; font-size: 14px;">© 2026 SumitAIInsight. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

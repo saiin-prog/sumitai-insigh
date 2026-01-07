@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Security Explained - SumitAIInsight</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Reused Header -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">SumitAIInsight</a>
+            <nav class="nav-links">
+                <a href="#">Learn AI</a>
+                <a href="#">MLOps</a>
+                <a href="#">Cyber Security</a>
+                <a href="#">M365</a>
+                <a href="#">Email Security</a>
+                <a href="#">About Sumit</a>
+                <a href="#" class="btn-subscribe">Subscribe</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Article Header -->
+        <article class="article-container">
+            <div class="article-header">
+                <h1 class="article-title">The Future of Email Security: Why SPF, DKIM, and DMARC Still Matter</h1>
+                <h2 class="article-subtitle">A deep dive into the modern protocols that protect your organization from
+                    spoofing.</h2>
+
+                <div class="card-meta" style="justify-content: center; margin-top: 24px;">
+                    <div class="author-avatar"></div>
+                    <div>
+                        <span style="display: block; font-weight: 500; color: #000;">Sumit Kumar</span>
+                        <span style="color: #757575;">Jan 7, 2026 · 8 min read</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Body -->
+            <div class="article-body">
+                <p>The original email system is like an unsecured postcard where anyone could write any name in the
+                    “From” section, and the post office would deliver it without question. It was built for a different
+                    era, one where trust was implicit and bad actors were few.</p>
+
+                <p>Today, that model is broken. Modern protocols are like adding security features to that postcard
+                    after the fact.</p>
+
+                <h2>Understanding the Basics</h2>
+                <p>Before we dive into the complex configurations of ARC and BIMI, we need to revisit the "Holy Trinity"
+                    of email authentication:</p>
+
+                <ul>
+                    <li><strong>SPF (Sender Policy Framework)</strong>: The bouncer at the door checking the guest list.
+                    </li>
+                    <li><strong>DKIM (DomainKeys Identified Mail)</strong>: The wax seal on the envelope ensuring it
+                        hasn't been opened.</li>
+                    <li><strong>DMARC (Domain-based Message Authentication)</strong>: The instruction manual telling the
+                        receiver what to do if the first two fail.</li>
+                </ul>
+
+                <blockquote>
+                    "Security is not about building walls; it's about verifying identities."
+                </blockquote>
+
+                <h3>1. SPF: The Guest List</h3>
+                <p>SPF is literally a DNA record listing the IP addresses authorized to send mail on your behalf. If an
+                    email comes from an IP not on the list, it's flagged.</p>
+
+                <pre>
+v=spf1 ip4:192.0.2.0/24 include:_spf.google.com ~all
+                </pre>
+
+                <p>However, SPF has a major flaw: it breaks when an email is forwarded. If I forward your email to a
+                    friend, the "sender" IP changes to mine, but your domain is still in the "From" address. This is
+                    where DKIM steps in.</p>
+
+                <h3>2. DKIM: The Digital Signature</h3>
+                <p>DKIM adds a cryptographic signature to the header. Even if the IP changes (like in forwarding), the
+                    signature remains valid as long as the content isn't altered.</p>
+
+                <h2>Why This Matters for AI Systems</h2>
+                <p>As we integrate AI agents into our workflows, they will often send automated reports, alerts, and
+                    summaries. Ensuring these agents are authenticated is critical to preventing "Agent Spoofing," a new
+                    vector of attack we expect to see rise in 2026.</p>
+
+            </div>
+        </article>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container" style="text-align: center;">
+            <p style="color: #757575; font-size: 14px;">© 2026 SumitAIInsight. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>
