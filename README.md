@@ -2,53 +2,55 @@
 
 This is the source code for the SumitAIInsight website, redesigned with a "Towards Data Science" aesthetic.
 
-## Project Structure
-- `index.html`: The main landing page.
-- `article.html`: The template for individual articles (currently featuring "Email Security").
-- `email-security/`: Category-specific folder (e.g., SPF, DKIM, DMARC article).
-- `style.css`: The global stylesheet.
+## How It Is Deployed (Antigravity Pipeline)
 
-## How to Publish this Website to GitHub
+This website uses an **Automated CI/CD Pipeline** to deploy directly from GitHub to Hostinger.
 
-Since this project is already a local git repository, follow these steps to publish it to the web using your GitHub account (`saiin-prog`).
+**Workflow:**
+1.  **Code Change:** You commit changes to the `main` branch on GitHub.
+2.  **GitHub Actions:** A secure runner picks up the changes (defined in `.github/workflows/deploy.yml`).
+3.  **FTP Upload:** The runner logs into your Hostinger server using secure Secrets.
+4.  **Live Update:** Files are replaced in `public_html/`, updating `sumitaiinsight.com` instantly.
 
-### Step 1: Create a Repository on GitHub
-1.  Log in to [GitHub.com](https://github.com).
-2.  Click the **+** icon in the top-right corner and select **New repository**.
-3.  **Repository name**: Enter `sumitai-insight` (or your preferred name).
-4.  **Public/Private**: Choose **Public** (required for free GitHub Pages).
-5.  **Initialize this repository with**: Leave all these unchecked (no README, no .gitignore). We are pushing an *existing* repository.
-6.  Click **Create repository**.
+---
 
-### Step 2: Push Local Code to GitHub
-Once the repository is created, you will see a "Quick setup" page. Copy the URL (it looks like `https://github.com/saiin-prog/sumitai-insight.git`).
+## Configuration Details
 
-Then, run the following commands in your terminal (locally):
-```bash
-# Link your local folder to the new GitHub repo
-git remote add origin https://github.com/saiin-prog/sumitai-insight.git
+### 1. GitHub Secrets
+The following secrets are configured in [Repo Settings > Secrets > Actions](https://github.com/saiin-prog/sumitai-insigh/settings/secrets/actions):
+- `FTP_SERVER`: Your Hostinger IP or Hostname.
+- `FTP_USERNAME`: Your FTP User.
+- `FTP_PASSWORD`: Your FTP Password.
 
-# Rename the branch to main (best practice)
-git branch -M main
+### 2. Deployment Workflow File
+Located at: `.github/workflows/deploy.yml`
 
-# Push your files
-git push -u origin main
+**Critical Configuration:**
+```yaml
+- name: 📂 Sync files
+  uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+  with:
+    # ... secrets ...
+    server-dir: public_html/  # DEPLOYS TO ROOT
 ```
 
-### Step 3: Enable GitHub Pages (Live Website)
-1.  Go to your repository on GitHub.
-2.  Click **Settings** (top tab).
-3.  On the left sidebar, verify under "Code and automation" -> **Pages**.
-4.  Under **Build and deployment** > **Source**, select **Deploy from a branch**.
-5.  Under **Branch**, select `main` and `/ (root)`, then click **Save**.
-6.  Wait about 1-2 minutes. Refresh the page, and you will see your live URL (e.g., `https://saiin-prog.github.io/sumitai-insight/`).
+### 3. WordPress Conflict (Important)
+Since this deploys to the same folder as WordPress:
+- **`index.html`** (This Site) vs **`index.php`** (WordPress).
+- **Resolution:** To see this site, you renamed `index.php` to `index_old.php`.
+- **To Restore WordPress:** Delete/Rename `index.html` and rename `index_old.php` back to `index.php`.
 
-## Future Updates
-To publish new changes in the future:
-1.  Make your edits.
-2.  Run:
+---
+
+## How to Update the Site
+You do not need to touch FTP ever again.
+
+1.  **Edit File:** Open `index.html` or `article.html` in your editor or on GitHub.
+2.  **Make Changes:** Change text, images, or colors.
+3.  **Push:**
     ```bash
     git add .
-    git commit -m "Description of changes"
+    git commit -m "Updated homepage headline"
     git push
     ```
+4.  **Wait:** Check the "Actions" tab in GitHub. When it turns green (approx. 30s), your site is live.
