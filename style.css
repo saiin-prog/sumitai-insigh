@@ -149,6 +149,27 @@ a:hover {
     font-weight: 400;
 }
 
+.site-logo {
+    height: 48px;
+    width: auto;
+    vertical-align: middle;
+}
+
+.hero-profile-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.hero-profile-img {
+    width: 156px;
+    height: 156px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
 /* Main Two-Column Layout */
 .main-layout {
     padding: 48px 0;
