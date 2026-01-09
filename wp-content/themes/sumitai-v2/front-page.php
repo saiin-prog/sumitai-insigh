@@ -6,9 +6,13 @@
             <div class="hero-profile-container">
                 <img src="<?php echo get_template_directory_uri(); ?>/hero-profile.jpg" alt="Sumit" class="hero-profile-img">
             </div>
-            <h1 class="welcome-title">Welcome to this learning space - sumitaiinsight</h1>
-            <p class="welcome-subtitle">Exploring the frontiers of M365 stacks, cloud platforms (Azure, AWS, GCP), AI
-                capabilities, MLOps, cyber security, email security, and modern AI tools.</p>
+            <h1 class="welcome-title">Welcome to SumitAIInsight — A Learning Space for Us</h1>
+            <p class="welcome-subtitle">Exploring Microsoft 365 ecosystems, multi-cloud platforms (Azure, AWS, GCP), AI 
+                engineering, MLOps, cybersecurity, email security, and modern AI tools — with architectural clarity 
+                and practical depth.</p>
+            <p class="welcome-tagline">Where curiosity meets clarity</p>
+            
+            <div class="hero-micro-text">The journey begins · 1 January</div>
         </div>
     </section>
 

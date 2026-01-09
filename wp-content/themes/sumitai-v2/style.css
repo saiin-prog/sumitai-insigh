@@ -152,18 +152,58 @@ a:hover {
 .welcome-title {
     font-size: 42px;
     /* Large but not shouting */
-    font-weight: 700;
+    font-weight: 600;
+    /* Semi-Bold */
     /* TDS serif font weight */
-    font-family: var(--font-serif);
-    margin-bottom: 16px;
-    color: #000;
+    font-family: var(--font-sans);
+    /* Changed to Inter/Sans per request */
+    margin-bottom: 24px;
+    color: #292929;
+    /* Dark charcoal */
+    text-align: center;
+    line-height: 1.25;
 }
 
 .welcome-subtitle {
-    font-size: 24px;
-    color: var(--color-text-main);
+    font-size: 20px;
+    /* Slightly smaller than H1 */
+    color: var(--color-text-muted);
+    /* Muted Dark Gray */
     font-family: var(--font-sans);
     font-weight: 400;
+    line-height: 1.6;
+    /* Comfortable reading */
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 16px;
+    /* Centered with max-width */
+}
+
+.welcome-tagline {
+    font-size: 18px;
+    /* Slightly smaller than paragraph */
+    color: var(--color-accent);
+    /* Subtle teal/green */
+    font-style: italic;
+    text-align: center;
+    margin-bottom: 0;
+    font-weight: 500;
+}
+
+.welcome-banner {
+    position: relative;
+    /* For absolute positioning of micro-text if needed, but flex is safer */
+}
+
+.hero-micro-text {
+    font-size: 12px;
+    color: #999;
+    /* Light gray */
+    position: absolute;
+    bottom: 16px;
+    right: 24px;
+    font-family: var(--font-sans);
+    opacity: 0.8;
 }
 
 .site-logo {

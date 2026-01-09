@@ -19,5 +19,5 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          # DEPLOY TO THEME DIR
-          server-dir: ./wp-content/themes/sumitai-v2/
+          # DEPLOY TO ROOT (Merge wp-content structure)
+          server-dir: ./
