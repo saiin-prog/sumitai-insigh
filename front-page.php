@@ -1,42 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SumitAIInsight - AI, MLOps, and Security</title>
-    <!-- Google Fonts: Merriweather for that "Medium" feel, Inter for UI -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-
-    <!-- Header -->
-    <header class="site-header">
-        <div class="container header-inner">
-            <a href="#" class="logo"><img src="logo.png" alt="SumitAIInsight" class="site-logo"></a>
-            <nav class="nav-links">
-                <a href="#">Learn AI</a>
-                <a href="#">MLOps</a>
-                <a href="#">Cyber Security</a>
-                <a href="#">M365</a>
-                <a href="email-security/spf-dkim-dmarc.html">Email Security</a>
-                <a href="#">About Sumit</a>
-                <a href="#" class="btn-subscribe">Subscribe</a>
-            </nav>
-        </div>
-    </header>
+<?php get_header(); ?>
 
     <!-- Welcome Banner Section -->
     <section class="welcome-banner">
         <div class="container">
             <div class="hero-profile-container">
-                <img src="hero-profile.jpg" alt="Sumit" class="hero-profile-img">
+                <img src="<?php echo get_template_directory_uri(); ?>/hero-profile.jpg" alt="Sumit" class="hero-profile-img">
             </div>
             <h1 class="welcome-title">Welcome to this learning space - sumitaiinsight</h1>
             <p class="welcome-subtitle">Exploring the frontiers of M365 stacks, cloud platforms (Azure, AWS, GCP), AI
@@ -52,11 +20,27 @@
             <div class="feed-column">
                 <h2 class="section-title">Latest Knowledge</h2>
 
+                <!-- 
+                     NOTE: This section works best if we eventually migrate these hardcoded posts to real WP posts.
+                     For now, per instructions, we keep the alignment with index.html static content 
+                     BUT ideally we should at least check for posts.
+                     
+                     However, since the user wants "Email Security" to be dynamic, 
+                     and specifically mentioned assigning "SPF..." to that category, 
+                     the homepage might lose that article if we hardcode it here and also have it in DB.
+                     
+                     For this "migration" step, I will keep the static HTML as a fallback or "Sticky" content
+                     mimicking index.html exactly as requested to "not need manual updates" implies future state.
+                     
+                     Let's stick to the static HTML from index.html for the homepage to ensure 1:1 match 
+                     until they fully migrate content.
+                -->
+
                 <!-- Featured / Big Article -->
                 <article class="feed-item featured-item">
                     <div class="feed-image">
-                        <a href="email-security/spf-dkim-dmarc.html">
-                            <img src="featured-robot.png" alt="AI and MLOps">
+                        <a href="<?php echo esc_url( home_url( '/category/email-security/spf-dkim-dmarc/' ) ); // Placeholder link logic ?>">
+                            <img src="<?php echo get_template_directory_uri(); ?>/featured-robot.png" alt="AI and MLOps">
                         </a>
                     </div>
                     <div class="feed-content">
@@ -64,7 +48,7 @@
                             <div class="author-avatar"></div>
                             <span>Sumit Kumar · Jan 7, 2026</span>
                         </div>
-                        <a href="email-security/spf-dkim-dmarc.html">
+                        <a href="<?php echo esc_url( home_url( '/category/email-security/spf-dkim-dmarc/' ) ); ?>">
                             <h2 class="feed-title">The Future of Email Security: Why SPF, DKIM, and DMARC Still Matter
                             </h2>
                         </a>
@@ -166,7 +150,7 @@
                         <a href="#" class="chip">MLOps</a>
                         <a href="#" class="chip">Cyber Security</a>
                         <a href="m365.html" class="chip">M365</a>
-                        <a href="email-security/spf-dkim-dmarc.html" class="chip">Email Security</a>
+                        <a href="<?php echo esc_url( home_url( '/category/email-security/' ) ); ?>" class="chip">Email Security</a>
                         <a href="#" class="chip">Data Science</a>
                         <a href="#" class="chip">Cloud Computing</a>
                     </div>
@@ -189,12 +173,4 @@
         </div>
     </main>
 
-    <footer class="site-footer">
-        <div class="container">
-            <p style="color: #757575; font-size: 14px;">© 2026 SumitAIInsight. All rights reserved.</p>
-        </div>
-    </footer>
-
-</body>
-
-</html>
+<?php get_footer(); ?>

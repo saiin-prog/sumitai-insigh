@@ -19,5 +19,5 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          # FIXED: Deploying to ./ because FTP user is already inside public_html
-          server-dir: ./
+          # DEPLOY TO THEME DIR
+          server-dir: ./wp-content/themes/sumitai-v2/

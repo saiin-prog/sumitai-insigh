@@ -36,7 +36,7 @@
         <!-- Article Header -->
         <article class="article-container">
             <div class="article-header">
-                <h1 class="article-title">Email Security: SPF, DKIM, DMARC, ARC - An Explanation</h1>
+                <h1 class="article-title">Email Security: SPF, DKIM, DMARC, ARC – Ease Attempt to explain</h1>
                 <h2 class="article-subtitle">A deep dive into the protocols that secure modern email infrastructure.
                 </h2>
 
@@ -44,7 +44,7 @@
                     <div class="author-avatar" style="width: 40px; height: 40px;"></div>
                     <div style="text-align: left;">
                         <span style="display: block; font-weight: 500; color: #000;">Sumit Kumar</span>
-                        <span style="color: #757575;">Jan 7, 2026 · 10 min read</span>
+                        <span style="color: #757575;">Jan 7, 2026 · 15 min read</span>
                     </div>
                 </div>
             </div>
@@ -52,11 +52,28 @@
             <!-- Main Content Body -->
             <div class="article-body">
 
+                <!-- PDF Download Section -->
+                <div
+                    style="background-color: #f0f7ff; border-left: 4px solid #0056b3; padding: 16px; margin-bottom: 32px; border-radius: 0 4px 4px 0;">
+                    <p style="margin: 0; color: #333;">
+                        <strong>Want to read this offline?</strong><br>
+                        <a href="../assets/pdfs/spf-dkim-dmarc-guide.pdf" target="_blank"
+                            style="color: #0056b3; text-decoration: underline; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; margin-top: 8px;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 16L7 11H10V4H14V11H17L12 16ZM12 18C16 18 19 19 19 20V21H5V20C5 19 8 18 12 18Z"
+                                    fill="currentColor" />
+                            </svg>
+                            View / Download Full Guide (PDF)
+                        </a>
+                    </p>
+                </div>
+
                 <h2>Original Email System Analogy</h2>
                 <p>The original email system is like an unsecured postcard where anyone could write any name in the
                     “From” section, and the post office would deliver it without question. Modern protocols are like
                     adding security features to that postcard after the fact:</p>
-
                 <ul>
                     <li><strong>SPF</strong> is like the post office checking a list of approved couriers.</li>
                     <li><strong>DKIM</strong> is a tamper-evident wax seal on the message.</li>
@@ -72,28 +89,27 @@
                 <hr style="border: 0; border-top: 1px solid #eee; margin: 40px 0;">
 
                 <h2>SPF (Sender Policy Framework)</h2>
-
                 <h3>What SPF Solves (Fundamental context)</h3>
                 <p>SPF prevents unauthorized sending infrastructure from sending mail on behalf of your domain.<br>
                     It answers: <em>“Is this sending IP allowed to send email for this domain?”</em></p>
 
                 <h4>Design Flow</h4>
                 <ol>
-                    <li>Receiving MTA extracts MAIL FROM / Return-Path.</li>
-                    <li>Queries DNS for SPF TXT record.</li>
-                    <li>Compares sender IP against authorized IP mechanisms.</li>
-                    <li>Returns result: Pass | Fail | SoftFail | Neutral | None.</li>
+                    <li>Receiving MTA extracts MAIL FROM / Return-Path</li>
+                    <li>Queries DNS for SPF TXT record</li>
+                    <li>Compares sender IP against authorized IP mechanisms</li>
+                    <li>Returns result: Pass | Fail | SoftFail | Neutral | None</li>
                 </ol>
 
                 <p><strong>Key Architectural Point:</strong> SPF validates infrastructure identity. It does not validate
                     the visible From header.</p>
 
-                <h3>SPF Limitations (By Design)</h3>
+                <h4>SPF Limitations (By Design)</h4>
                 <ul>
-                    <li>Breaks on forwarding.</li>
-                    <li>DNS lookup limit (10).</li>
-                    <li>Does not protect display name spoofing.</li>
-                    <li>Does not validate message integrity.</li>
+                    <li>Breaks on forwarding</li>
+                    <li>DNS lookup limit (10)</li>
+                    <li>Does not protect display name spoofing</li>
+                    <li>Does not validate message integrity</li>
                 </ul>
 
                 <h3>Real Use Case</h3>
@@ -106,71 +122,86 @@
                 <hr style="border: 0; border-top: 1px solid #eee; margin: 40px 0;">
 
                 <h2>DKIM (DomainKeys Identified Mail)</h2>
-
                 <h3>What DKIM Solves</h3>
                 <p>DKIM ensures message integrity and domain accountability using cryptography.<br>
                     It answers: <em>“Was this message modified after it left the sender’s domain?”</em></p>
 
                 <h4>Design Flow</h4>
                 <ol>
-                    <li>Sending MTA hashes selected headers + body.</li>
-                    <li>Hash is signed with private key.</li>
-                    <li>Signature added to DKIM-Signature header.</li>
-                    <li>Receiver retrieves public key from DNS using selector.</li>
-                    <li>Recalculates hash and verifies signature.</li>
+                    <li>Sending MTA hashes selected headers + body</li>
+                    <li>Hash is signed with private key</li>
+                    <li>Signature added to DKIM-Signature header</li>
+                    <li>Receiver retrieves public key from DNS using selector</li>
+                    <li>Recalculates hash and verifies signature</li>
                 </ol>
 
                 <p><strong>Critical Architectural Insight:</strong> DKIM binds message content to sending domain.
                     Survives forwarding (if content not modified).</p>
 
-                <h3>DKIM Limitations</h3>
+                <h4>DKIM Limitations</h4>
                 <ul>
-                    <li>Body/header modification breaks DKIM.</li>
-                    <li>Does not enforce policy by itself.</li>
-                    <li>Alignment not mandatory without DMARC.</li>
+                    <li>Body/header modification breaks DKIM</li>
+                    <li>Does not enforce policy by itself</li>
+                    <li>Alignment not mandatory without DMARC</li>
                 </ul>
+
+                <h3>Use Case</h3>
+                <p>DKIM is like tamper-proof sealing wax on a letter. If broken, the receiver knows someone altered
+                    it.<br>
+                    <strong>Real-world:</strong> Ensures invoices, approvals, and legal emails are not modified in
+                    transit.
+                </p>
 
                 <hr style="border: 0; border-top: 1px solid #eee; margin: 40px 0;">
 
                 <h2>DMARC (Domain-based Message Authentication, Reporting & Conformance)</h2>
-
                 <h3>Why DMARC Was Necessary</h3>
-                <p>SPF and DKIM existed but were not enforced, not aligned with the visible sender, and lacked a
-                    feedback loop. DMARC introduces policy, alignment, and reporting.</p>
+                <p>SPF and DKIM existed but:</p>
+                <ul>
+                    <li>Not enforced</li>
+                    <li>Not aligned with visible sender</li>
+                    <li>No feedback loop</li>
+                </ul>
+                <p>DMARC introduces policy, alignment, and reporting.</p>
 
                 <h4>DMARC Architectural Design Flow</h4>
                 <ol>
-                    <li>Receiver evaluates SPF & DKIM.</li>
-                    <li>Checks alignment with From domain.</li>
-                    <li>Applies domain policy: <code>none</code> | <code>quarantine</code> | <code>reject</code>.</li>
-                    <li>Sends aggregate (RUA) and forensic (RUF) reports.</li>
+                    <li>Receiver evaluates SPF & DKIM</li>
+                    <li>Checks alignment with From domain</li>
+                    <li>Applies domain policy: <code>none</code>, <code>quarantine</code>, or <code>reject</code></li>
+                    <li>Sends aggregate (RUA) and forensic (RUF) reports</li>
                 </ol>
 
                 <h3>Alignment (Critical for Architects)</h3>
                 <ul>
-                    <li><strong>SPF alignment:</strong> MAIL FROM domain = From domain.</li>
-                    <li><strong>DKIM alignment:</strong> d= domain = From domain.</li>
+                    <li><strong>SPF alignment:</strong> MAIL FROM domain = From domain</li>
+                    <li><strong>DKIM alignment:</strong> d= domain = From domain</li>
                 </ul>
 
-                <h3>DMARC Limitations</h3>
+                <h4>DMARC Limitations</h4>
                 <ul>
-                    <li>Forwarding breaks SPF alignment.</li>
-                    <li>Mailing lists modify content → DKIM fails.</li>
-                    <li>No trust propagation across hops.</li>
+                    <li>Forwarding breaks SPF alignment</li>
+                    <li>Mailing lists modify content → DKIM fails</li>
+                    <li>No trust propagation across hops</li>
                 </ul>
+
+                <h3>Use Case</h3>
+                <p>DMARC is your written security policy: <em>“If email fails checks, block it.”</em><br>
+                    <strong>Real-world:</strong> Stops brand spoofing and CEO fraud emails.
+                </p>
 
                 <hr style="border: 0; border-top: 1px solid #eee; margin: 40px 0;">
 
                 <h2>ARC (Authenticated Received Chain)</h2>
-
                 <h3>Why ARC Was Introduced</h3>
-                <p>DMARC fails in legitimate multi-hop scenarios like mailing lists and forwarders. ARC solves: <em>“How
-                        can downstream receivers trust authentication that already happened upstream?”</em></p>
+                <p>DMARC fails in legitimate multi-hop scenarios: Mailing lists, Forwarders, Secure email gateways.<br>
+                    ARC solves: <em>“How can downstream receivers trust authentication that already happened
+                        upstream?”</em></p>
 
-                <h3>ARC vs DMARC – Architectural Reality</h3>
-
+                <h3>ARC Deep Architectural Design</h3>
+                <p>ARC vs DMARC – Architectural Reality</p>
                 <div style="overflow-x: auto;">
-                    <table style="width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 18px;">
+                    <table style="width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 16px;">
                         <thead>
                             <tr style="background: #f9f9f9; text-align: left;">
                                 <th style="padding: 12px; border-bottom: 2px solid #ddd;">Scenario</th>
@@ -204,59 +235,119 @@
 
                 <h3>Prerequisites (Non-Negotiable)</h3>
                 <ol>
-                    <li>You own and control the domain (DNS access required).</li>
-                    <li>Identified all outbound mail sources (M365, CRM, etc.).</li>
-                    <li>DNS provider supports TXT records and 2048-bit DKIM keys.</li>
-                    <li>Understanding of SMTP flow (MAIL FROM vs From:).</li>
+                    <li>You own and control the domain (DNS access required)</li>
+                    <li>You have identified all outbound mail sources (M365, Proofpoint, CRM, etc.)</li>
+                    <li>DNS provider supports TXT records and 2048-bit DKIM keys</li>
+                    <li>You understand DNS lookups and SMTP flow</li>
                 </ol>
 
                 <h3>SPF Implementation Steps</h3>
-                <p><strong>1. Inventory Sources:</strong> Microsoft 365, Proofpoint, etc.<br>
-                    <strong>2. Create Record:</strong> <code>v=spf1 &lt;mechanisms&gt; &lt;qualifier&gt;</code><br>
-                    <strong>3. Understand Mechanisms:</strong>
+                <p><strong>Step 1: Inventory All Sending Sources</strong><br>
+                    Create a list of every system that sends mail as your domain (e.g., M365, Proofpoint, App servers).
                 </p>
 
-                <div style="overflow-x: auto;">
-                    <table style="width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 16px;">
-                        <thead>
-                            <tr style="background: #f9f9f9; text-align: left;">
-                                <th style="padding: 8px; border-bottom: 2px solid #ddd;">Mechanism</th>
-                                <th style="padding: 8px; border-bottom: 2px solid #ddd;">Meaning</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td style="padding: 8px; border-bottom: 1px solid #eee;">v=spf1</td>
-                                <td style="padding: 8px; border-bottom: 1px solid #eee;">SPF version identifier
-                                    (mandatory)</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 8px; border-bottom: 1px solid #eee;">include:</td>
-                                <td style="padding: 8px; border-bottom: 1px solid #eee;">Import another domain’s SPF
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 8px; border-bottom: 1px solid #eee;">ip4: / ip6:</td>
-                                <td style="padding: 8px; border-bottom: 1px solid #eee;">Explicitly allowed IP</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 8px; border-bottom: 1px solid #eee;">-all</td>
-                                <td style="padding: 8px; border-bottom: 1px solid #eee;">Hard fail for everything else
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <p><strong>Step 2: Create the SPF Record (Syntax)</strong><br>
+                    <code>v=spf1 &lt;mechanisms&gt; &lt;qualifier&gt;</code><br>
+                    Example:
+                    <code>v=spf1 include:spf.protection.outlook.com include:_spf.pphosted.com ip4:203.0.113.10 -all</code>
+                </p>
+
+                <p><strong>Step 3: Understand Each Mechanism</strong></p>
+                <ul>
+                    <li><code>include:</code> - Import another domain’s SPF</li>
+                    <li><code>ip4: / ip6:</code> - Explicitly allowed IP</li>
+                    <li><code>-all</code> - Hard fail for everything else</li>
+                </ul>
+
+                <p><strong>Step 4: Qualifier Logic</strong><br>
+                    Start with <code>~all</code> (SoftFail) then move to <code>-all</code> (HardFail) after validation.
+                </p>
+
+                <p><strong>Step 5: DNS Lookup Limit</strong><br>
+                    Maximum 10 DNS lookups allowed (include, a, mx, exists, etc.).</p>
+
+                <h3>DKIM Implementation Steps</h3>
+                <p><strong>Step 1: Enable DKIM in Sending Platform</strong><br>
+                    (e.g., Enable in M365, Generate key in Proofpoint).</p>
+
+                <p><strong>Step 2: Create DKIM DNS Record</strong><br>
+                    Format: <code>&lt;selector&gt;._domainkey.example.com</code><br>
+                    Value: <code>v=DKIM1; k=rsa; p=...</code> (Public Key)</p>
+
+                <p><strong>Step 4: DKIM Signing Process</strong></p>
+                <ol>
+                    <li>Sending MTA hashes headers + body</li>
+                    <li>Hash encrypted with private key</li>
+                    <li>DKIM-Signature header added</li>
+                </ol>
 
                 <h3>DMARC Implementation Steps</h3>
-                <p><strong>Create Initial Record (Monitor Only):</strong><br>
-                    <code
-                        style="background: #f4f4f4; padding: 4px; border-radius: 4px;">v=DMARC1; p=none; rua=mailto:dmarc@yourdomain.com;</code>
+                <p><strong>Step 1: Understand Alignment</strong><br>
+                    SPF and DKIM must align with the visible From domain.</p>
+
+                <p><strong>Step 2: Create Initial DMARC Record (Monitor Only)</strong><br>
+                    <code>v=DMARC1; p=none; rua=mailto:dmarc@yourdomain.com; ruf=mailto:dmarc@yourdomain.com; fo=1; adkim=r; aspf=r;</code>
                 </p>
 
-                <blockquote>
-                    "Security is not about building walls; it's about verifying identities."
-                </blockquote>
+                <p><strong>Analyze DMARC Reports:</strong> Duration 2-4 weeks. Then move to enforcement (`p=quarantine`,
+                    then `p=reject`).</p>
+
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 40px 0;">
+
+                <h2>ARC Components & Implementation</h2>
+
+                <h3>What ARC Actually Does</h3>
+                <p>ARC does not authenticate the sender. ARC authenticates the authentication results of the previous
+                    hop.</p>
+
+                <h3>ARC Components</h3>
+                <ul>
+                    <li><strong>ARC-Seal (AS):</strong> Cryptographic seal of the chain</li>
+                    <li><strong>ARC-Message-Signature (AMS):</strong> DKIM-like signature of the message</li>
+                    <li><strong>ARC-Authentication-Results (AAR):</strong> Snapshot of SPF/DKIM/DMARC results</li>
+                </ul>
+
+                <h3>ARC Step-by-Step Implementation</h3>
+                <p><strong>Step 1: Identify ARC-Eligible Systems</strong> (Gateways, Relays). Do NOT enable on end-user
+                    MTAs.</p>
+                <p><strong>Step 2: Generate ARC Key Pair</strong> (2048-bit RSA, dedicated selector).</p>
+                <p><strong>Step 3: Publish ARC Public Key in DNS</strong> (Reuses DKIM format).</p>
+                <p><strong>Step 4: Enable ARC Signing on Gateway.</strong></p>
+
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 40px 0;">
+
+                <h2>Reference Articles & RFCs</h2>
+
+                <h3>Core RFCs (Primary Standards – MUST READ)</h3>
+                <ul>
+                    <li><strong>1. SPF — RFC 7208:</strong> <a href="https://datatracker.ietf.org/doc/html/rfc7208"
+                            target="_blank">https://datatracker.ietf.org/doc/html/rfc7208</a></li>
+                    <li><strong>2. DKIM — RFC 6376:</strong> <a href="https://datatracker.ietf.org/doc/html/rfc6376"
+                            target="_blank">https://datatracker.ietf.org/doc/html/rfc6376</a></li>
+                    <li><strong>3. DMARC — RFC 7489:</strong> <a href="https://datatracker.ietf.org/doc/html/rfc7489"
+                            target="_blank">https://datatracker.ietf.org/doc/html/rfc7489</a></li>
+                    <li><strong>4. ARC — RFC 8617:</strong> <a href="https://datatracker.ietf.org/doc/html/rfc8617"
+                            target="_blank">https://datatracker.ietf.org/doc/html/rfc8617</a></li>
+                </ul>
+
+                <h3>Government / Research-Grade Whitepapers</h3>
+                <ul>
+                    <li><strong>NIST Technical Note:</strong> <a
+                            href="https://nvlpubs.nist.gov/nistpubs/TechnicalNotes/NIST.TN.1945.pdf"
+                            target="_blank">Email Authentication Mechanisms</a></li>
+                    <li><strong>Academic Research:</strong> <a href="https://arxiv.org/abs/2011.08420"
+                            target="_blank">Email Spoofing & Forwarding Failures</a></li>
+                </ul>
+
+                <h3>Enterprise Deployment</h3>
+                <ul>
+                    <li><strong>Cisco Email Authentication Deployment Guide:</strong> <a
+                            href="https://www.cisco.com/c/dam/en/us/products/collateral/security/esa-spfdkim-dmarc.pdf"
+                            target="_blank">PDF Link</a></li>
+                    <li><strong>Microsoft Defender for Office 365:</strong> <a
+                            href="https://learn.microsoft.com/en-us/defender-office-365/emailauthentication-about"
+                            target="_blank">Authentication Architecture</a></li>
+                </ul>
 
             </div>
         </article>

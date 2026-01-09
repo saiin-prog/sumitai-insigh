@@ -1,7 +1,11 @@
-/* 
- * SumitAIInsight - TDS Style Theme 
- * Design Philosophy: Content-First, Minimalist, Typography-Centric
- */
+/*
+Theme Name: SumitAI Insight V2
+Theme URI: https://sumitaiinsight.com
+Author: Antigravity
+Description: Custom theme converted from static HTML specifically for TDS aesthetic.
+Version: 1.0
+Text Domain: sumitai-v2
+*/
 
 :root {
     /* Typography - The Heart of the Design */
@@ -105,6 +109,19 @@ a:hover {
     font-size: 14px;
     color: var(--color-text-muted);
     align-items: center;
+}
+
+/* WP Menu Specifics */
+.nav-links ul {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li {
+    display: inline-block;
 }
 
 .nav-links a:hover {
