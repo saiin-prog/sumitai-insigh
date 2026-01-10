@@ -105,8 +105,10 @@ a:hover {
 
 .nav-links {
     display: flex;
-    gap: 32px;
-    font-size: 14px;
+    gap: 16px;
+    /* Reduced from 32px for dense menu */
+    font-size: 13px;
+    /* Slightly smaller for fit */
     color: var(--color-text-muted);
     align-items: center;
 }

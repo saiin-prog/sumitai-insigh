@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Really Happens Between the CPU and the Cloud - SumitAIInsight</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Reused Header -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">SumitAIInsight</a>
+            <nav class="nav-links">
+                <a href="#">Learn AI</a>
+                <a href="#">MLOps</a>
+                <a href="#">Cyber Security</a>
+                <a href="#">M365</a>
+                <a href="#">Email Security</a>
+                <a href="#">About Sumit</a>
+                <a href="#" class="btn-subscribe">Subscribe</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Article Header -->
+        <article class="article-container">
+            <div class="article-header">
+                <h1 class="article-title">What Really Happens Between the CPU and the Cloud</h1>
+                <h2 class="article-subtitle">A technical deep dive into how operating systems and virtualization work
+                    from the hardware level upward.</h2>
+
+                <div class="card-meta" style="justify-content: center; margin-top: 24px;">
+                    <div class="author-avatar"></div>
+                    <div>
+                        <span style="display: block; font-weight: 500; color: #000;">Sumit Kumar</span>
+                        <span style="color: #757575;">Jan 11, 2026 · 12 min read</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Body -->
+            <div class="article-body">
+
+                <h2>1. Cloud Foundations – Introduction</h2>
+                <p>What really happens between our CPU and the cloud? To understand modern cloud infrastructure, we must
+                    first understand how operating systems and virtualization work from the hardware level upward.</p>
+                <p>This article explains how a CPU executes processes, how memory is virtualized using paging, and how
+                    user mode and kernel mode enforce protection and isolation. It extends these concepts to
+                    virtualization, demonstrating how hypervisors create virtual machines by multiplexing CPU, memory,
+                    and I/O using hardware support such as Intel VT-x and AMD-V.</p>
+                <p>We also contrast Type-1 and Type-2 hypervisors, explain why cloud platforms rely on bare-metal
+                    hypervisors, and outline the performance and security trade-offs involved in running multiple
+                    operating systems on the same physical hardware.</p>
+
+                <h2>2. Process and CPU Execution</h2>
+                <h3>What is a Process?</h3>
+                <p>A process is an executing instance of a program. It bundles an address space (code, data, stack), CPU
+                    context (registers, Program Counter), OS resources (open files, sockets), and metadata (PID, owner,
+                    scheduling priority).</p>
+                <blockquote>"Virtualization creates virtual processes inside virtualized operating systems. So
+                    understanding process structure is necessary to understand how a VM works."</blockquote>
+                <p>It is important to distinguish a process from a program. A program is a passive file on disk. A
+                    process is a running, executing, resource-owning entity created by the OS. The CPU can only execute
+                    machine instructions; everything else is just abstractions.</p>
+
+                <h3>Key Structures and Context Switching</h3>
+                <p>The <strong>Process Control Block (PCB)</strong> holds critical information: PID, registers, program
+                    counter, state, open file descriptors, memory map, parent/children, and credentials.</p>
+                <p>When the OS switches between processes (Context Switch), it saves the current PCB (registers, PC,
+                    other CPU state) and loads the destination PCB. This operation incurs costs from register
+                    save/restore, potential TLB flushes, and cache effects.</p>
+                <p><strong>Why it matters for virtualization:</strong> Virtual Machines emulate multiple processes and
+                    whole OS instances. Hypervisors must multiplex CPU and memory across guest processes—PCBs inside
+                    guests map to guest kernel structures, while the hypervisor maintains per-VM metadata.</p>
+
+                <h3>The Computing Stack</h3>
+                <img src="assets/images/cloud/image13.png" alt="Computing Stack"
+                    style="width: 100%; max-width: 800px; height: auto; border-radius: 8px; margin: 24px 0; display: block;">
+                <p><strong>ISA (Instruction Set Architecture):</strong> Defines the supported instructions, data types,
+                    registers, and hardware interrupts.</p>
+                <img src="assets/images/cloud/image14.png" alt="ISA"
+                    style="width: 100%; max-width: 800px; height: auto; border-radius: 8px; margin: 24px 0; display: block;">
+
+                <h2>3. Virtual Memory and Paging</h2>
+                <p>Virtual memory provides each process with a private, contiguous address space while the operating
+                    system and MMU transparently map virtual addresses to physical memory using paging structures.</p>
+
+                <h3>Virtual vs. Physical Address</h3>
+                <p>Addresses assigned in the memory image used by the CPU to load and store are <strong>virtual
+                        (logical) addresses</strong>. They are not the actual addresses occupied by instructions or data
+                    but are assigned from 0 for convenience. The actual addresses where bytes are stored are called
+                    <strong>physical addresses</strong>.
+                </p>
+                <p>The CPU requests code/data at virtual addresses, which are translated to physical addresses so that
+                    RAM can fetch them. Memory is allocated at the granularity of pages (usually 4KB). Logical pages of
+                    a process are stored in physical frames in memory, and logical page numbers are translated to
+                    physical frame numbers.</p>
+                <img src="assets/images/cloud/image2.png" alt="Virtual vs Physical Memory"
+                    style="width: 100%; max-width: 800px; height: auto; border-radius: 8px; margin: 24px 0; display: block;">
+
+                <h3>Address Translation</h3>
+                <img src="assets/images/cloud/image3.png" alt="Address Translation"
+                    style="width: 100%; max-width: 800px; height: auto; border-radius: 8px; margin: 24px 0; display: block;">
+                <br>
+                <img src="assets/images/cloud/image4.png" alt="Paging"
+                    style="width: 100%; max-width: 800px; height: auto; border-radius: 8px; margin: 24px 0; display: block;">
+
+                <h3>Demand Paging</h3>
+                <img src="assets/images/cloud/image5.png" alt="Demand Paging"
+                    style="width: 100%; max-width: 800px; height: auto; border-radius: 8px; margin: 24px 0; display: block;">
+
+                <h3>Segmentation</h3>
+                <p>Segmentation logically divides a process address space into regions such as code, data, and stack.
+                </p>
+                <div class="image-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <img src="assets/images/cloud/image9.png" alt="Segmentation 1"
+                        style="width: 100%; height: auto; border-radius: 8px;">
+                    <img src="assets/images/cloud/image10.png" alt="Segmentation 2"
+                        style="width: 100%; height: auto; border-radius: 8px;">
+                </div>
+                <div class="image-grid"
+                    style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px;">
+                    <img src="assets/images/cloud/image11.png" alt="Segmentation 3"
+                        style="width: 100%; height: auto; border-radius: 8px;">
+                    <img src="assets/images/cloud/image12.png" alt="Segmentation 4"
+                        style="width: 100%; height: auto; border-radius: 8px;">
+                </div>
+                <br>
+
+                <h3>Analogy: Office Desk vs. Warehouse</h3>
+                <p><strong>Core Idea:</strong> Imagine a worker sitting at a desk in an office. The desk looks large,
+                    clean, and continuous, but in reality, the office does not keep everything on the desk at once. Most
+                    materials are stored in a warehouse somewhere else.</p>
+                <ul>
+                    <li><strong>Virtual Memory (The Illusion):</strong> To the worker, it keeps one long, continuous
+                        desk where everything is neatly laid out. This is virtual memory: the worker sees a clean space,
+                        even though real storage is scattered.</li>
+                    <li><strong>Pages (Standard Boxes):</strong> All materials are stored in same-size boxes (pages) in
+                        the warehouse to make movement easy.</li>
+                    <li><strong>Page Table (Index Book):</strong> An index book allows the worker to know that "Item A
+                        is in box 12 on shelf 3". This maps what is on the desk to the warehouse.</li>
+                    <li><strong>TLB (Sticky Notes):</strong> For frequently used items, the worker keeps sticky notes
+                        with quick directions to avoid opening the index book every time.</li>
+                    <li><strong>Page Fault:</strong> If the worker reaches for something not on the desk or nearby, they
+                        must pause and ask support staff to bring it. This pause is a page fault.</li>
+                </ul>
+
+                <h2>4. User Mode and Kernel Mode</h2>
+                <p>Modern CPUs enforce multiple privilege levels to separate application execution from operating system
+                    control. This separation is fundamental to system stability, security, and efficient resource
+                    management.</p>
+
+                <h3>Privilege Levels and Rings</h3>
+                <ul>
+                    <li><strong>User Mode (Ring 3 in x86):</strong> Applications execute here with a restricted
+                        instruction set. Direct access to hardware and privileged CPU instructions is prohibited.</li>
+                    <li><strong>Kernel Mode (Ring 0 in x86):</strong> The operating system executes here with full
+                        privileges, allowing direct access to hardware, protected memory regions, and system-wide
+                        resources.</li>
+                </ul>
+                <p>If user code attempts to run privileged instructions, an error is thrown. The privilege level is
+                    checked by the CPU and MMU (every page has a privilege bit).</p>
+
+                <h3>Where is OS Code Located?</h3>
+                <img src="assets/images/cloud/image6.png" alt="OS Code Location"
+                    style="width: 100%; max-width: 800px; height: auto; border-radius: 8px; margin: 24px 0; display: block;">
+
+                <h3>Security Rings</h3>
+                <img src="assets/images/cloud/image15.png" alt="Security Rings"
+                    style="width: 100%; max-width: 800px; height: auto; border-radius: 8px; margin: 24px 0; display: block;">
+
+                <h2>5. Interrupts and Traps</h2>
+                <p>Interrupt and trap handling form a critical control path. When does a process go from user mode to
+                    kernel mode?</p>
+                <ul>
+                    <li><strong>System Call:</strong> User requests a privileged action from the OS (e.g., read
+                        syscall).</li>
+                    <li><strong>Program Fault:</strong> Hardware raises a fault when user does an invalid action (e.g.,
+                        page fault).</li>
+                    <li><strong>Interrupt:</strong> I/O devices request attention (e.g., packet arrived on NIC).</li>
+                </ul>
+                <p>All these are generally called <strong>traps</strong>. Upon a trap, the CPU changes privilege level
+                    to kernel mode, jumps to OS code that handles the trap, runs it, and then returns to user code
+                    (restoring the saved context). </p>
+                <img src="assets/images/cloud/image7.png" alt="Trap Handling Flow"
+                    style="width: 100%; max-width: 800px; height: auto; border-radius: 8px; margin: 24px 0; display: block;">
+                <br>
+                <img src="assets/images/cloud/image8.png" alt="Trap Handling 2"
+                    style="width: 100%; max-width: 800px; height: auto; border-radius: 8px; margin: 24px 0; display: block;">
+
+                <h3>Virtualization Challenges</h3>
+                <p>In virtualized systems, privileged instructions executed by guest kernels may trigger VM exits,
+                    transferring control to the hypervisor (trap-and-emulate). Excessive VM exits can degrade
+                    performance. Modern hardware support (Intel VT-x, AMD-V) allows guest OSs to run in Ring 0 while
+                    efficiently trapping sensitive operations.</p>
+
+                <h2>6. Hypervisors and Cloud Infrastructure</h2>
+
+                <h3>Type 1 Hypervisor (Bare-Metal)</h3>
+                <p>A Type 1 hypervisor runs directly on physical hardware without an intermediate host operating system.
+                    It provides a minimal, high-performance control layer.</p>
+                <ul>
+                    <li><strong>Core Characteristics:</strong> Installed directly on bare-metal; No general-purpose host
+                        OS; Designed to isolate multiple VMs; Optimized for performance and security.</li>
+                    <li><strong>Use Cases:</strong> Enterprise data centers, Public/Private clouds, High-performance
+                        workloads.</li>
+                    <li><strong>Implementations:</strong> VMware ESXi, Microsoft Hyper-V (Server), KVM (Linux-based),
+                        Xen, AWS Nitro.</li>
+                </ul>
+                <p><strong>Why Cloud Platforms Use Type 1:</strong> Large-scale clouds require near bare-metal
+                    performance, strong tenant isolation, and hardware virtualization support. Type 1 hypervisors meet
+                    these needs by operating directly on hardware with a reduced attack surface.</p>
+                <img src="assets/images/cloud/image1.png" alt="Type 1 Hypervisor"
+                    style="width: 100%; max-width: 800px; height: auto; border-radius: 8px; margin: 24px 0; display: block;">
+
+                <h3>Hardware-Assisted Virtualization</h3>
+                <p>Modern CPUs have a special VMX mode. The VMM enters VMX mode to run the guest OS in a special Ring 0,
+                    exiting back to the VMM on triggers.</p>
+                <img src="assets/images/cloud/image16.png" alt="Hardware Assisted Virtualization"
+                    style="width: 100%; max-width: 800px; height: auto; border-radius: 8px; margin: 24px 0; display: block;">
+
+                <h3>Memory Virtualization</h3>
+                <img src="assets/images/cloud/image17.png" alt="Memory Virtualization"
+                    style="width: 100%; max-width: 800px; height: auto; border-radius: 8px; margin: 24px 0; display: block;">
+
+                <h3>Type 2 Hypervisor (Hosted)</h3>
+                <p>A Type 2 hypervisor runs as an application on top of an existing host operating system. It relies on
+                    the host OS for scheduling and drivers.</p>
+                <ul>
+                    <li><strong>Characteristics:</strong> Installed on top of a host OS; Virtual machines run as
+                        user-space processes; Optimized for convenience.</li>
+                    <li><strong>Use Cases:</strong> Local development, testing, learning virtualization.</li>
+                    <li><strong>Implementations:</strong> Oracle VirtualBox, VMware Workstation, Parallels Desktop.</li>
+                </ul>
+
+                <h2>7. Virtualization Technologies Overview</h2>
+                <div class="table-container" style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+                        <thead>
+                            <tr style="background-color: #f5f5f5;">
+                                <th style="padding: 12px; border: 1px solid #ddd;">Technology</th>
+                                <th style="padding: 12px; border: 1px solid #ddd;">Category</th>
+                                <th style="padding: 12px; border: 1px solid #ddd;">Type</th>
+                                <th style="padding: 12px; border: 1px solid #ddd;">Primary Use</th>
+                                <th style="padding: 12px; border: 1px solid #ddd;">Unique Feature</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #ddd;">VMware ESXi</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Hypervisor</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Type 1</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Enterprise DC</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Mature, strong isolation</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Hyper-V</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Hypervisor</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Type 1</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Windows/Azure</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Deep Windows integration</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #ddd;">KVM</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Hypervisor</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Type 1</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Linux/Cloud</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Kernel-integrated</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #ddd;">AWS Nitro</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Hypervisor</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Type 1 (Light)</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">AWS EC2</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Offloads to hardware</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #ddd;">VirtualBox</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Hypervisor</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Type 2</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Desktop Dev</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Easy setup, free</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Docker</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Containers</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">OS-level</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Deployment</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Shares host kernel</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Firecracker</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">MicroVM</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Lightweight VM</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Serverless</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Fast boot, minimal surface</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h2>8. Architectural Summary</h2>
+                <p><strong>Architectural Trade-offs in Cloud Design:</strong></p>
+                <ul>
+                    <li><strong>Process:</strong> The unit of execution. PCB and context switches are fundamental
+                        primitives.</li>
+                    <li><strong>Virtual Memory:</strong> Isolates processes and enables overcommit. Nested paging makes
+                        virtualization efficient but adds TLB pressure.</li>
+                    <li><strong>User/Kernel Modes:</strong> Enforce protection. Hardware virtualization avoids
+                        trap-heavy emulation costs.</li>
+                    <li><strong>Interrupt/Trap:</strong> Kernel handles synchronous/asynchronous events. Virtualization
+                        requires clever interrupt virtualization to minimize overhead.</li>
+                    <li><strong>I/O:</strong> Critical performance path. Architects must choose between emulation,
+                        paravirtualization (virtio), or passthrough/SR-IOV.</li>
+                    <li><strong>Overall:</strong> The trade-off is always <em>Performance ⟷ Isolation ⟷
+                            Flexibility</em>. Cloud-scale efficiency is achieved using paravirtualization and hardware
+                        assists.</li>
+                </ul>
+
+            </div>
+        </article>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container" style="text-align: center;">
+            <p style="color: #757575; font-size: 14px;">© 2026 SumitAIInsight. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

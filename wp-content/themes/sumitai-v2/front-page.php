@@ -150,13 +150,12 @@
                 <div class="sidebar-sticky">
                     <h3 class="sidebar-title">Discover more of what matters to you</h3>
                     <div class="category-list-chips">
-                        <a href="#" class="chip">Learn AI</a>
-                        <a href="#" class="chip">MLOps</a>
-                        <a href="#" class="chip">Cyber Security</a>
-                        <a href="m365.html" class="chip">M365</a>
-                        <a href="<?php echo esc_url( home_url( '/category/email-security/' ) ); ?>" class="chip">Email Security</a>
-                        <a href="#" class="chip">Data Science</a>
-                        <a href="#" class="chip">Cloud Computing</a>
+                        <a href="<?php echo esc_url( home_url( '/category/exchange-m365/' ) ); ?>" class="chip">Exchange & M365</a>
+                        <a href="<?php echo esc_url( home_url( '/category/artificial-intelligence/' ) ); ?>" class="chip">Artificial Intelligence</a>
+                        <a href="<?php echo esc_url( home_url( '/category/ai-mlops/' ) ); ?>" class="chip">AI MLOps</a>
+                        <a href="<?php echo esc_url( home_url( '/category/cybersecurity-email/' ) ); ?>" class="chip">Cyber & Email Security</a>
+                        <a href="<?php echo esc_url( home_url( '/category/ai-tools/' ) ); ?>" class="chip">AI Tools</a>
+                        <a href="<?php echo esc_url( home_url( '/category/cloud/' ) ); ?>" class="chip">Cloud</a>
                     </div>
 
                     <div class="sidebar-divider"></div>
